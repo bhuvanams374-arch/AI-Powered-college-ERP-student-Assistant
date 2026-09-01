@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered College ERP Student Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon">🎓</div>
+                <div>
+                    <h1>AI College ERP Assistant</h1>
+                    <p class="subtitle">Multi-Agent Intelligence • CrewAI • AutoGen • LangChain • Ollama • Pinecone RAG</p>
+                </div>
+            </div>
+            <div class="student-selector-box">
+                <label for="studentSelect">Select Student:</label>
+                <select id="studentSelect">
+                    <option value="STU001" selected>STU001 - Rahul Kumar (MCA Sem 2)</option>
+                    <option value="STU002">STU002 - Priya Sharma (MCA Sem 2)</option>
+                    <option value="STU003">STU003 - Amit Patel (B.Tech CSE Sem 4)</option>
+                    <option value="STU004">STU004 - Sneha Reddy (MCA Sem 2 - Warning)</option>
+                    <option value="STU005">STU005 - Vikram Malhotra (B.Tech IT Sem 6)</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Quick Info Banner -->
+        <div class="student-badge-bar" id="studentBanner">
+            <span class="badge" id="studentName">Student: Rahul Kumar</span>
+            <span class="badge badge-info" id="studentDept">MCA • Semester 2</span>
+            <span class="badge badge-success" id="studentStatus">Status: Active Regular</span>
+            <span class="badge badge-purple" id="studentMentor">Mentor: Dr. S. K. Narayanan</span>
+        </div>
+
+        <!-- Main Query Section -->
+        <main class="main-card">
+            <div class="greeting-box">
+                <h2>Welcome, <span id="greetingStudentName">Rahul</span>!</h2>
+                <p>Ask anything about your college ERP records, attendance, upcoming exams, fee dues, enrolled courses, or institutional regulations.</p>
+            </div>
+
+            <!-- Question Input Area -->
+            <form id="askForm" class="query-form">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="questionInput" 
+                        placeholder="Ask your question (e.g., 'What is my attendance percentage?', 'When is my next exam?')..." 
+                        required 
+                        autocomplete="off"
+                    />
+                    <button type="submit" id="submitBtn" class="send-btn">
+                        <span id="btnText">Ask AI Assistant</span>
+                        <div id="btnSpinner" class="spinner hidden"></div>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quick Questions Buttons -->
+            <div class="quick-questions-section">
+                <span class="quick-label">Quick Scenarios:</span>
+                <div class="quick-buttons">
+                    <button type="button" class="quick-btn" data-query="What is my attendance percentage?">📊 My Attendance</button>
+                    <button type="button" class="quick-btn" data-query="When is my next exam?">📝 Next Exam</button>
+                    <button type="button" class="quick-btn" data-query="How much fee is pending?">💳 Pending Fees</button>
+                    <button type="button" class="quick-btn" data-query="What courses am I enrolled in?">📚 My Courses</button>
+                    <button type="button" class="quick-btn" data-query="What is the college minimum attendance policy?">📜 Attendance Policy</button>
+                    <button type="button" class="quick-btn" data-query="What is today's timetable?">⏰ Today's Timetable</button>
+                    <button type="button" class="quick-btn" data-query="Show me the latest college announcements.">📢 Announcements</button>
+                </div>
+            </div>
+
+            <!-- Agent Trace Box -->
+            <div id="agentTraceBox" class="agent-trace-box hidden">
+                <div class="trace-header">
+                    <span class="trace-title">⚡ Multi-Agent Execution Pipeline Trace</span>
+                    <span class="trace-latency" id="traceLatency">Latency: 0ms</span>
+                </div>
+                <div class="trace-timeline" id="traceTimeline">
+                    <!-- Dynamic trace logs will appear here -->
+                </div>
+            </div>
+
+            <!-- AI Response Box -->
+            <div id="responseContainer" class="response-container hidden">
+                <div class="response-header">
+                    <div class="agent-tag">
+                        <span class="agent-avatar">🤖</span>
+                        <div>
+                            <div class="agent-name" id="respAgentName">Attendance Agent</div>
+                            <div class="source-tag" id="respSource">Source: ERP Attendance Records</div>
+                        </div>
+                    </div>
+                    <div class="confidence-badge" id="respConfidence">Confidence: 98%</div>
+                </div>
+
+                <div class="response-content" id="respAnswerText">
+                    <!-- Response Text -->
+                </div>
+
+                <div class="response-footer">
+                    <div class="review-status" id="respReviewStatus">
+                        <span>🛡️ Audited & Approved by Review Agent (5/5 Quality Checks Passed)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live ERP Quick View Tabs -->
+            <div class="erp-tabs-section">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="tab-attendance">Attendance Records</button>
+                    <button class="tab-btn" data-tab="tab-exams">Examination Schedule</button>
+                    <button class="tab-btn" data-tab="tab-fees">Fee Accounts</button>
+                    <button class="tab-btn" data-tab="tab-courses">Enrolled Courses</button>
+                    <button class="tab-btn" data-tab="tab-policies">College Policies RAG</button>
+                </div>
+
+                <div class="tab-content active" id="tab-attendance">
+                    <div class="card-table-wrapper" id="attendanceTableView">
+                        Loading attendance...
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-exams">
+                    <div class="card-table-wrapper" id="examsTableView">
+                        Loading exams...
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-fees">
+                    <div class="card-table-wrapper" id="feesTableView">
+                        Loading fees...
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-courses">
+                    <div class="card-table-wrapper" id="coursesTableView">
+                        Loading courses...
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-policies">
+                    <div class="policy-rag-info">
+                        <h4>Pinecone RAG Indexed Regulatory Documents</h4>
+                        <p>The Policy Agent retrieves Ground Truth from these official university policy documents:</p>
+                        <div class="doc-list">
+                            <span class="doc-pill">📄 Attendance Policy (POLICY-ATT-2026)</span>
+                            <span class="doc-pill">📄 Examination Rules (EXAM-REG-2026)</span>
+                            <span class="doc-pill">📄 Fee Policy (FEE-POL-2026)</span>
+                            <span class="doc-pill">📄 Academic Regulations (ACAD-REG-2026)</span>
+                            <span class="doc-pill">📄 Leave Policy (LEAVE-POL-2026)</span>
+                            <span class="doc-pill">📄 Student Handbook 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>AI-Powered College ERP Student Assistant • Multi-Agent System Architecture (CrewAI + AutoGen + LangChain + Ollama + Pinecone)</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
